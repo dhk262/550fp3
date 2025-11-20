@@ -1,6 +1,4 @@
 # Basic R final project Makefile (Final Project 1)
-# This version assumes your Rmd is renamed to "Final-Project-1.Rmd"
-# and located inside the "report/" folder.
 
 # Default target: build the final report
 all: report/Final-Project-1.html
@@ -29,3 +27,5 @@ clean:
 
 .PHONY: all tables figs report clean
 
+install:
+	R -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv'); renv::restore()"

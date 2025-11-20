@@ -61,6 +61,28 @@ make clean      # remove all generated outputs
 
 ---
 
+## 📦 Package Management with `renv`
+
+This project uses **renv** to ensure reproducible R package environments.  
+The `renv.lock` file records exact package versions so the environment can be reconstructed anywhere.
+
+### 🔧 Initial Setup
+
+To install the exact package versions used in this project:
+
+**Option 1 — Using Make**
+```bash
+make install
+```
+
+**Option 2 — Using R**
+```r
+install.packages("renv")
+renv::restore()
+```
+
+---
+
 
 
 
