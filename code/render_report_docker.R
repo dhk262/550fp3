@@ -1,14 +1,21 @@
-# code/render_report_docker.R
+# Make sure output dirs exist
+if (!dir.exists("tables")) dir.create("tables", recursive = TRUE)
+if (!dir.exists("figs")) dir.create("figs", recursive = TRUE)
+if (!dir.exists("report_out")) dir.create("report_out", recursive = TRUE)
 
-# Make sure an output directory exists (inside container)
-if (!dir.exists("report_out")) {
-  dir.create("report_out", recursive = TRUE)
-}
+# Build table + figure
+source("code/make_table.R")
+source("code/make_figure.R")
 
-# Render the report from the Rmd shipped in the image
+# Knit from report/ so ../tables paths work
+setwd("report")
+
 rmarkdown::render(
-  input         = "report/Final-Project-1.Rmd",
-  output_dir    = "report_out",
-  output_file   = "Final-Project-1.html",
-  knit_root_dir = "report"
+  input       = "Final-Project-1.Rmd",
+  output_dir  = "../report_out",
+  output_file = "Final-Project-1.html",
+  knit_root_dir = "."
 )
+
+
+
