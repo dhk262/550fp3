@@ -80,9 +80,86 @@ make install
 install.packages("renv")
 renv::restore()
 ```
+---
+
+## Dockerized Reproducible Report
+
+The project also includes a Docker image so the report can be built in a fully reproducible environment.
+
+### 1. Build the Docker image
+
+From the project root:
+
+```bash
+make docker_build
+```
+
+This runs:
+
+```bash
+docker build -t dhk262/550fp3:latest .
+```
+
+### 2. Generate the report using Docker
+
+These targets run the container and write the compiled report to a local folder called `report`.
+
+#### Mac / Linux / WSL
+
+```bash
+make docker_report
+```
+
+This:
+
+1. Ensures a local `report/` directory exists.
+2. Runs:
+
+   ```bash
+   docker run --rm      -v "$(pwd)/report":/project/report_out      dhk262/550fp3:latest
+   ```
+
+3. Inside the container, `Rscript code/render_report_docker.R` renders `Final-Project-1.Rmd`
+   to `/project/report_out/Final-Project-1.html`.
+
+After it finishes, you’ll have:
+
+```text
+report/Final-Project-1.html
+```
+
+on your machine.
+
+#### Windows (Git Bash)
+
+On Windows with Git Bash, use the Windows-specific target:
+
+```bash
+make docker_report_windows
+```
+
+This runs:
+
+```bash
+mkdir -p report
+docker run --rm   -v /"$(pwd)/report":/project/report_out   dhk262/550fp3:latest
+```
+
+After it finishes, you will also have:
+
+```text
+report/Final-Project-1.html
+```
+
+in the local `report/` folder.
 
 ---
 
+**Summary:**
+
+- Local: `make install` then `make`
+- Docker (Mac/Linux/WSL): `make docker_build` then `make docker_report`
+- Docker (Windows Git Bash): `make docker_build` then `make docker_report_windows`
 
 
 
